@@ -1,0 +1,11 @@
+# Don't track mod jars (we distribute ours via HordeEngine-1.0.0.jar only)
+*.jar
+!HordeEngine-*.jar
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
