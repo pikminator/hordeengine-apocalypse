@@ -12,7 +12,7 @@ A modpack addon that transforms Create: All of Create — Aeronautics into a 28 
 
 ## Requirements
 
-- [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/aoc-aeronautics) (NeoForge 1.21.1)
+- [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics) (NeoForge 1.21.1)
 - The additional mods listed in [modlist.md](modlist.md)
 
 ## Installation
