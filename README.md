@@ -20,7 +20,12 @@ NeoForge 1.21.1.
 
 - [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics)
 - The mods listed in [modlist.md](modlist.md)
-- Recommended: remove `enhancedai`, `zombieapocalypseaddon` (HordeEngine replaces them)
+- **Remove these mods** (they conflict or cause TPS issues):
+  - `enhancedai` — HordeEngine handles block breaking + sprint via own mixins
+  - `zombieapocalypseaddon` — duplicates entire spawn/horde/blood moon system
+  - `smoothchunk` — conflicts with thread scheduler, causes micro-stalls
+  - `chunkactivitytracker` — same as above
+  - `e4mc` — network flooding, caused massive parkNanos in profiler
 
 ## Installation
 
