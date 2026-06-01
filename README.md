@@ -1,59 +1,71 @@
 # HordeEngine Apocalypse
 
-A modpack addon that transforms Create: All of Create — Aeronautics into a 28 Days Later survival horror experience. Fast zombies, horde migration, ambient dread, and noise-based attraction — but still fully compatible with Create engineering.
+"28 Days Later" survival horror addon for [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics).
+NeoForge 1.21.1.
 
 ## What this does
 
-- Replaces vanilla zombie spawning with a **statistical horde system** — zombies migrate between zones, react to noise, and never despawn
-- Adds **ambient sound layers** — hear the horde before you see it
-- Balances world generation for **smaller biomes, less ocean, less rain**
-- Makes zombies **fast, persistent, and deadly** — but escapable with skill
-- Keeps Create intact — works alongside all machines and contraptions
+- **Statistical horde system** — zombies migrate between zones, never despawn, don't burn in sunlight
+- **Burst spawning** — enter an infested zone → 8 zombies/tick until counter depleted
+- **Noise attraction** — breaking blocks, walking, sprinting, jumping, taking damage, opening chests, Create machines — everything attracts nearby zombies
+- **Ambient dread** — 7×7 zone ambient sound scan. Hear the horde before you see it
+- **Block breaking** — zombies smash doors, fences, trapdoors, glass, wood to reach you
+- **Group consciousness** — one zombie spots you → entire zone (5×5 for Screamers) aggroes
+- **Screamers** — no line-of-sight needed, play alert sound, give Speed III burst to all nearby
+- **Create integration** — moving contraptions (trains, bearings, drills) emit noise proportional to speed and size
+- **Tornado protection** — tornadoes destroy buildings but preserve chests, beds, and mechanisms
+- **Performance-first** — zero world scans in tick loop. O(1) entity queries via custom tracker. Verified 0% server tick load via Spark profiler
 
 ## Requirements
 
-- [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics) (NeoForge 1.21.1)
-- The additional mods listed in [modlist.md](modlist.md)
+- [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics)
+- The mods listed in [modlist.md](modlist.md)
+- Recommended: remove `enhancedai`, `zombieapocalypseaddon` (HordeEngine replaces them)
 
 ## Installation
 
-1. Install **All of Create — Aeronautics v1.7** via PrismLauncher or your preferred launcher.
-2. Download and install all mods listed in [modlist.md](modlist.md) into the `mods` folder.
-3. Copy everything from this repo into the Minecraft instance folder (merge `config/`, `shaderpacks/`, `datapacks/`).
-4. Copy `HordeEngine-1.0.0.jar` into the `mods` folder.
-5. **Create a new world.** Old worlds won't get the new biome generation.
-6. Launch and survive.
+1. Install All of Create — Aeronautics v1.7
+2. Install additional mods from [modlist.md](modlist.md) into `mods/`
+3. Merge `config/` and `datapacks/` from this repo into the instance folder
+4. Copy `HordeEngine-1.1.0.jar` into `mods/`
+5. Create a **new world** (biome changes need fresh worldgen)
+6. Launch. First 20 minutes are grace period — eternal day, no spawns
 
-## What you get
+## Commands
 
-| System | Description |
-|--------|-------------|
-| **Horde migration** | Zombies flow between zones. 20% move every 30 seconds. |
-| **Burst spawning** | Enter an infested zone → all zombies materialize in seconds. |
-| **Noise attraction** | Chop trees, mine stone, build contraptions → zombies hear it. Sit quietly → safe. |
-| **Ambient sounds** | Zombie Awareness investigate sounds play from high-density zones. Day: quiet. Night: loud. |
-| **Special zombies** | Tank (3%), Screamer (4%), Spitter (4%), Mutant (8%). Each has unique stats. |
-| **Block breaking** | Doors, fences, glass, torches break when zone density > 80%. |
-| **Day scaling** | Zombie caps increase over weeks. Day 1-3: base. Day 30+: 2.2x. |
-| **40% infested zones** | Not everywhere is dangerous. Find safe corridors. |
-| **Grace period** | First 20 minutes: eternal day, no spawns. Time to prepare. |
+| Command | Output |
+|---------|--------|
+| `/horde zone` | Counter, horde loaded, ALL zombies in zone |
+| `/horde nearby` | 3×3 zone grid, single message |
+| `/horde total` | Global stats across all zones |
+| `/horde debug` | Toggle spawn/noise messages in chat |
+| `/horde grace end` | End grace period immediately |
+| `/horde reload` | Reload config from `hordeengine-common.toml` |
 
 ## Modified configs
 
-| Config | Changes |
-|--------|---------|
-| `tectonic.json` | Smaller biomes, less ocean, shorter mountains |
-| `eclipticseasons-common.toml` | Rain reduced to 30% of vanilla |
-| `toughasnails/temperature.toml` | Cold penalties halved, respawn clemency enabled |
-| `enhancedai/common.toml` | Zombie/drowned/villager AI disabled (vanilla targeting) |
-| `enhancedai/.../custom_hostile.json` | Villager attack chance 50% → 100% |
-| `presencefootsteps/userconfig.json` | Louder wind, stronger foliage sounds |
-| `ComplementaryReimagined...txt` | Better underwater visibility, less pitch-black caves |
+| Config | What changed | Why |
+|--------|-------------|-----|
+| `enhancedmobcap-common.toml` | Monster cap 0.4, water 0.2, ambient 0.1 | HordeEngine handles zombies |
+| `zombieawareness/Features.toml` | All mechanics → false | Keep only sound assets |
+| `zombieawareness/General.toml` | blockBreak=false, findSense=0 | Disable CPU-heavy logic |
+| `Weather2/Tornado.toml` | Blacklist mode: protect chests, beds, mechanisms | Tornado destroys walls, not interiors |
+| `tornadophysics-common.toml` | Expanded destroyableBlocks (wood+glass+wool) | Buildings break, mechanisms stay |
+| `terrablender.toml` | overworld_region_size=2 | Smaller biomes |
+| `tectonic.json` | temperature_offset=-0.18, scale=0.16 | Fewer jungles, more varied |
+| `quark-common.toml` | Toretoise=false | Saves 3% TPS |
+| `modernfix-mixins.properties` | Thread/classinfo tweaks | Less memory, less thread contention |
+| `physicsmod/physics_server.toml` | Various | Physics performance |
+| `presencefootsteps/userconfig.json` | Louder wind, stronger foliage | Immersion |
+| `ComplementaryReimagined...txt` | Better underwater, less pitch-black | Visibility |
 
-## HordeEngine commands
+## Performance
 
-```
-/horde zone     — Current zone stats
-/horde nearby   — 3x3 grid of neighbor zombie counts
-/horde total    — All zones on the server
-```
+HordeEngine uses **zero world scans** in the tick loop. Entity tracking via events (join/leave/death).
+Verified 5× with Spark profiler: HordeEngine = 0% of server tick time.
+
+**PC requirements:** 16 GB RAM minimum. Close Chrome before playing. The modpack has 234 mods + Sable physics. Swap file should be fixed (not auto) — 4-8 GB.
+
+## Development
+
+See [DEVGUIDE.md](DEVGUIDE.md) for build instructions, architecture overview, and debugging.
