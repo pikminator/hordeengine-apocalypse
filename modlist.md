@@ -42,7 +42,9 @@ Download these mods and place them in your `mods` folder alongside the base All 
 | Sound Physics Remastered | https://modrinth.com/mod/sound-physics-remastered | 3D sound engine |
 | Physics Mod Pro | https://modrinth.com/mod/physics-mod-pro | Ocean waves, liquid physics, smoke |
 | HT's TreeChop | https://modrinth.com/mod/treechop | Realistic tree chopping |
+| Weather2 | https://modrinth.com/mod/weather2 | Weather engine (required by Tornado Disasters) |
 | Tornado Disasters | https://modrinth.com/mod/tornado-disasters | Tornadoes, block destruction |
+| TornadoPhysics | https://modrinth.com/mod/tornadophysics | Create & Sable tornado physics support |
 | FTB Backups 3 | https://www.curseforge.com/minecraft/mc-mods/ftb-backups-3 | World backups |
 
 ## Libraries (required by mods above)
@@ -65,4 +67,4 @@ Download these mods and place them in your `mods` folder alongside the base All 
 
 ## Total
 
-**33 additional mods** beyond the base All of Create — Aeronautics v1.7 pack.
+**35 additional mods** beyond the base All of Create — Aeronautics v1.7 pack.

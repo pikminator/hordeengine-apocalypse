@@ -54,7 +54,7 @@
   "snowSmoothShading": true,
   "snowChunkSize": 0,
   "blockSettings": {
-    "Physics Type": 0,
+    "Physics Type": 2,
     "Lifetime": 4.0,
     "Lifetime Variance": 3.0,
     "Scale": 1.0,
