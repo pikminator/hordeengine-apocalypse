@@ -40,7 +40,9 @@ Download these mods and place them in your `mods` folder alongside the base All 
 | Enhanced Celestials | https://modrinth.com/mod/enhanced-celestials | Lunar events |
 | Presence Footsteps | https://modrinth.com/mod/presence-footsteps | Realistic footstep sounds |
 | Sound Physics Remastered | https://modrinth.com/mod/sound-physics-remastered | 3D sound engine |
+| Physics Mod Pro | https://modrinth.com/mod/physics-mod-pro | Ocean waves, liquid physics, smoke |
 | HT's TreeChop | https://modrinth.com/mod/treechop | Realistic tree chopping |
+| Tornado Disasters | https://modrinth.com/mod/tornado-disasters | Tornadoes, block destruction |
 | FTB Backups 3 | https://www.curseforge.com/minecraft/mc-mods/ftb-backups-3 | World backups |
 
 ## Libraries (required by mods above)
@@ -63,4 +65,4 @@ Download these mods and place them in your `mods` folder alongside the base All 
 
 ## Total
 
-**31 additional mods** beyond the base All of Create — Aeronautics v1.7 pack.
+**33 additional mods** beyond the base All of Create — Aeronautics v1.7 pack.
