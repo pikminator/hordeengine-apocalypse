@@ -1,3 +1,21 @@
+See DEVGUIDE.md for architecture, config values, and modpack setup.
+
+## Build
+
+```powershell
+cd C:\Users\dsd\projects\HordeEngine
+$javaBin = "C:\Users\dsd\AppData\Roaming\PrismLauncher\java\java-runtime-delta\bin\java.exe"
+& $javaBin -Xmx64m -Xms64m "-Dorg.gradle.appname=gradlew" -classpath "gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain clean build --no-daemon
+```
+
+## Deploy
+
+```powershell
+Copy-Item "C:\Users\dsd\projects\HordeEngine\build\libs\HordeEngine-1.1.0.jar" "C:\Users\dsd\AppData\Roaming\PrismLauncher\instances\All of Create - Aeronautics\minecraft\mods\HordeEngine-1.1.0.jar" -Force
+```
+
+---
+
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
 Tradeoff: These guidelines bias toward caution over speed. For trivial tasks, use judgment.
