@@ -74,6 +74,9 @@ zoneInfestedChance=0.55, zombieSpeed=0.43, mutantSpeed=0.52, mutantChance=0.10
 
 ## Debug
 
+**Compiled .class files:** `build/classes/java/main/hordeengine/` (for javap decompilation)
+**Build artifacts:** `build/libs/HordeEngine-1.1.0.jar`
+
 Spark: `/spark profiler start` → play 60s → stop → link. `/spark heapsummary` for memory.
 Logs: `latest.log` — search `[HordeEngine]`, `Can't keep up`, `Non-horde zombie joined`.
 **Verified 5×: HordeEngine = 0% server tick time.**
