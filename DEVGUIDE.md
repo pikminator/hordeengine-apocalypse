@@ -1,31 +1,10 @@
-# HordeEngine Apocalypse — Developer Guide
-
-## Project locations
-
-| What | Path |
-|------|------|
-| Source code | `C:\Users\dsd\projects\HordeEngine` |
-| Built JAR | `C:\Users\dsd\projects\HordeEngine\build\libs\HordeEngine-1.1.0.jar` |
-| This dist folder | `C:\Users\dsd\Desktop\projects\hordeengine-apocalypse` |
-| Modpack (PrismLauncher) | "All of Create - Aeronautics" v1.7 |
-| Modpack files | `C:\Users\dsd\AppData\Roaming\PrismLauncher\instances\All of Create - Aeronautics\` |
-
-## Build & Deploy
-
-```powershell
-cd C:\Users\dsd\projects\HordeEngine
-$javaBin = "C:\Users\dsd\AppData\Roaming\PrismLauncher\java\java-runtime-delta\bin\java.exe"
-& $javaBin -Xmx64m -Xms64m "-Dorg.gradle.appname=gradlew" -classpath "gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain clean build --no-daemon
-Copy-Item "build\libs\HordeEngine-1.1.0.jar" "C:\Users\dsd\AppData\Roaming\PrismLauncher\instances\All of Create - Aeronautics\minecraft\mods\HordeEngine-1.1.0.jar" -Force
-```
-
-Java: `C:\Users\dsd\AppData\Roaming\PrismLauncher\java\java-runtime-delta\` (MS OpenJDK 21.0.7)
+# HordeEngine Apocalypse — Architecture & Config
 
 ## Modpack context
 
 234 mods. Key: Create 6.0.10, Sable (Valkyrien Skies physics), Terralith, Tectonic, Quark.
 
-Removed from pack: `enhancedai`, `zombieapocalypseaddon`, `Smoothchunk`, `Chunk Activity Tracker`.
+**Must remove from pack:** `enhancedai`, `zombieapocalypseaddon`, `smoothchunk`, `chunkactivitytracker`, `e4mc`.
 
 ## Architecture (19 files, ~1200 lines)
 
@@ -41,7 +20,7 @@ Cooldown=10 ticks. Max 8/cycle. Distance 24-56. Light 0-13. Types: Tank(Husk)=3%
 Forest/Jungle/DarkForest/Mangrove=90% infested. Others=55%. Caps: Dense=55, Forest=40, Open=24, Sparse=14, Minimal=6, Cave=35. First wave ≤24. Migration: 28%/400 ticks, always ≥1 stays. Drowned: 1/8→land zombie.
 
 ### HordeMind
-LivingChangeTargetEvent: 3×3 zone (5×5 Screamer). Screamers: no LOS, play sound, Speed III (5s) to alerted. Static `propagating` flag prevents recursion.
+LivingChangeTargetEvent: 3×3 zone (5×5 Screamer). Screamers: no LOS, play sound, Speed III (5s) to alerted. Static `propagating` flag prevents recursion (setTarget fires event BEFORE assigning target).
 
 ### Block breaking — two systems
 1. MixinZombie.customServerAiStep: every 5 ticks, wood/glass/fences/trapdoors. 33% plays break sound.
@@ -62,12 +41,14 @@ Tracks AbstractContraptionEntity via events. Every 40 ticks: noise = 3 + speed×
 
 ## Commands
 
-`/horde zone` — counter + horde loaded + ALL zombies (one-time scan)
-`/horde nearby` — 3×3 grid, single msg
-`/horde total` — global stats
-`/horde debug` — toggle chat spam
-`/horde grace end` — force end grace
-`/horde reload` — reload config
+| Command | Output |
+|---------|--------|
+| `zone` | Counter + horde loaded + ALL zombies (one-time scan) |
+| `nearby` | 3×3 grid, single msg |
+| `total` | Global stats |
+| `debug` | Toggle chat spam |
+| `grace end` | Force end grace |
+| `reload` | Reload config from TOML |
 
 ## Key config values
 
@@ -83,6 +64,7 @@ zoneInfestedChance=0.55, zombieSpeed=0.43, mutantSpeed=0.52, mutantChance=0.10
 |------|------|-----|
 | enhancedmobcap-common.toml | monsterCap=0.4, water=0.2 | HordeEngine handles zombies |
 | zombieawareness/Features.toml | All→false | Keep sounds, disable CPU logic |
+| zombieawareness/General.toml | blockBreak=false, findSense=0 | Same |
 | Weather2/Tornado.toml | Blacklist mode | Tornado preserves chests/beds |
 | tornadophysics-common.toml | Expanded destroyable | Wood+glass+wool |
 | terrablender.toml | region_size=2 | Smaller biomes |
@@ -92,7 +74,6 @@ zoneInfestedChance=0.55, zombieSpeed=0.43, mutantSpeed=0.52, mutantChance=0.10
 
 ## Debug
 
-Spark: `/spark profiler start` → play 60s → stop → link. Or `/spark heapsummary` for memory.
+Spark: `/spark profiler start` → play 60s → stop → link. `/spark heapsummary` for memory.
 Logs: `latest.log` — search `[HordeEngine]`, `Can't keep up`, `Non-horde zombie joined`.
-
-**Verified 5×: HordeEngine = 0% server tick time.** All world scans replaced by EntityTracker.
+**Verified 5×: HordeEngine = 0% server tick time.**
