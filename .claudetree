@@ -1,0 +1,34 @@
+HordeEngine/
+├── .claudeignore
+├── CLAUDE.md
+├── build.gradle
+└── src/
+    ├── main/
+    │   ├── java/hordeengine/
+    │   │   ├── AmbientHandler.java
+    │   │   ├── BlockBreaker.java
+    │   │   ├── Config.java
+    │   │   ├── CreateIntegration.java
+    │   │   ├── EntityTracker.java
+    │   │   ├── HordeCommand.java
+    │   │   ├── HordeEngine.java
+    │   │   ├── HordeMind.java
+    │   │   ├── KillListener.java
+    │   │   ├── ModSounds.java
+    │   │   ├── NoiseAttraction.java
+    │   │   ├── SpawnBlocker.java
+    │   │   ├── SpawnHandler.java
+    │   │   ├── Tags.java
+    │   │   ├── ZoneData.java
+    │   │   ├── ZoneManager.java
+    │   │   ├── ZonePos.java
+    │   │   ├── ZoneReconciler.java
+    │   │   ├── ZoneSavedData.java
+    │   │   └── mixin/
+    │   │       ├── MixinZombie.java
+    │   │       └── MixinZombieSpawn.java
+    │   └── resources/
+    │       ├── assets/hordeengine/sounds.json
+    │       ├── hordeengine.mixins.json
+    │       └── META-INF/neoforge.mods.toml
+    └── test/ (empty)
