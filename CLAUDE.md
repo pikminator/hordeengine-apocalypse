@@ -4,6 +4,7 @@ All of Create — Aeronautics v1.7. NeoForge 1.21.1, 234 mods.
 Instance: `C:\Users\dsd\AppData\Roaming\PrismLauncher\instances\All of Create - Aeronautics\`
 Launcher: PrismLauncher. Java: `java-runtime-delta` (MS OpenJDK 21).
 
+At session start, read MEMORY.md for known issues, crash history, and key decisions.
 See DEVGUIDE.md for architecture, config values, and removed mods.
 
 ## Build
