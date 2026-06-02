@@ -2,7 +2,7 @@
 
 ## Modpack context
 
-234 mods. Key: Create 6.0.10, Sable (Valkyrien Skies physics), Terralith, Tectonic, Quark.
+234 mods. Key: Create 6.0.10, Sable (physics engine), Terralith, Tectonic, Quark.
 
 **Must remove from pack:** `enhancedai`, `zombieapocalypseaddon`, `smoothchunk`, `chunkactivitytracker`, `e4mc`.
 
