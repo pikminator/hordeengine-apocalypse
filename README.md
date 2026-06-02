@@ -1,31 +1,50 @@
 # HordeEngine Apocalypse
 
-"28 Days Later" survival horror addon for [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics).
-NeoForge 1.21.1.
+"28 Days Later" / "28 Years Later" survival horror addon for [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics).
+NeoForge 1.21.1. Java 21. GeckoLib 4.8.4.
+
+## Atmosphere
+
+Not zombies. Infected. Living humans with the rage virus.
+
+- **They sprint** — faster than you. Pure adrenaline, no shambling.
+- **They smell you** — living flesh has a scent. Blood draws them faster.
+- **They hear you** — noise, footsteps, machines, screams. Silence is survival.
+- **They drown** — they're alive. Water 3+ blocks deep kills them. But they climb out of shallows.
+- **They climb** — ladders, obstacles. Their bodies run at full capacity.
+- **They smash** — doors, glass, fences. They don't turn handles. They break through.
+- **They swarm** — one spots you → every infected nearby joins the chase.
+- **They evolve** — zones grow more dangerous each day. The infection spreads.
+- **They never despawn** — saw you an hour ago? Still coming.
+
+4 infected types: **Runner** (84%, fast), **Fast** (8%, outruns sprint), **Alpha** (4%, smart, leads the horde, screams), **Crawler** (4%, low profile, crawls).
 
 ## What this does
 
-- **Statistical horde system** — zombies migrate between zones, never despawn, don't burn in sunlight
-- **Burst spawning** — enter an infested zone → 8 zombies/tick until counter depleted
-- **Noise attraction** — breaking blocks, walking, sprinting, jumping, taking damage, opening chests, Create machines — everything attracts nearby zombies
+- **Statistical horde** — infected migrate between zones, never despawn, don't burn in sunlight
+- **Noise-driven spawning** — loud actions amplify spawns up to 3×. Stay quiet, stay safe
 - **Ambient dread** — 7×7 zone ambient sound scan. Hear the horde before you see it
-- **Block breaking** — zombies smash doors, fences, trapdoors, glass, wood to reach you
-- **Group consciousness** — one zombie spots you → entire zone (5×5 for Screamers) aggroes
-- **Screamers** — no line-of-sight needed, play alert sound, give Speed III burst to all nearby
-- **Create integration** — moving contraptions (trains, bearings, drills) emit noise proportional to speed and size
-- **Tornado protection** — tornadoes destroy buildings but preserve chests, beds, and mechanisms
-- **Performance-first** — zero world scans in tick loop. O(1) entity queries via custom tracker. Verified 0% server tick load via Spark profiler
+- **Block breaking** — doors, glass, fences, wood. Stone too at high density
+- **Swarm cohesion** — FollowHordeGoal: idle infected adopt nearby ally's target (10-block radius)
+- **Alpha coordination** — ScreamAlertGoal: 32-block scream + scent burst alerts the entire horde
+- **Infection** — one bite → 35 seconds to die. No cure. Dead player becomes a RunnerEntity
+- **Water physics** — shallow → chase at 1.3× speed. Deep → drown + seek shore
+- **Scent trails** — ScentTargetGoal with path reachability verification. Rain washes scent away
+- **Grudge system** — escaped a zone with live infected → twice as many next time
+- **Day scaling** — day 3: 1.3×, day 7: 1.7×, day 30: 2.2× population multiplier
+- **Create integration** — moving contraptions emit noise proportional to speed and size
+- **Grace period** — first 20 minutes: eternal day, no spawns
 
 ## Requirements
 
 - [All of Create — Aeronautics v1.7](https://www.curseforge.com/minecraft/modpacks/all-of-create-aeronautics)
 - The mods listed in [modlist.md](modlist.md)
-- **Remove these mods** (they conflict or cause TPS issues):
-  - `enhancedai` — HordeEngine handles block breaking + sprint via own mixins
-  - `zombieapocalypseaddon` — duplicates entire spawn/horde/blood moon system
-  - `smoothchunk` — conflicts with thread scheduler, causes micro-stalls
+- **Remove these mods** (they conflict with HordeEngine AI):
+  - `enhancedai` — AI goals clash
+  - `zombieapocalypseaddon` — duplicate spawn/horde system
+  - `smoothchunk` — thread scheduler conflict, micro-stalls
   - `chunkactivitytracker` — same as above
-  - `e4mc` — network flooding, caused massive parkNanos in profiler
+  - `e4mc` — network flooding
 
 ## Installation
 
@@ -52,8 +71,6 @@ NeoForge 1.21.1.
 | Config | What changed | Why |
 |--------|-------------|-----|
 | `enhancedmobcap-common.toml` | Monster cap 0.4, water 0.2, ambient 0.1 | HordeEngine handles zombies |
-| `zombieawareness/Features.toml` | All mechanics → false | Keep only sound assets |
-| `zombieawareness/General.toml` | blockBreak=false, findSense=0 | Disable CPU-heavy logic |
 | `Weather2/Tornado.toml` | Blacklist mode: protect chests, beds, mechanisms | Tornado destroys walls, not interiors |
 | `tornadophysics-common.toml` | Expanded destroyableBlocks (wood+glass+wool) | Buildings break, mechanisms stay |
 | `terrablender.toml` | overworld_region_size=2 | Smaller biomes |
@@ -66,10 +83,8 @@ NeoForge 1.21.1.
 
 ## Performance
 
-HordeEngine uses **zero world scans** in the tick loop. Entity tracking via events (join/leave/death).
-Verified 5× with Spark profiler: HordeEngine = 0% of server tick time.
-
-**PC requirements:** 16 GB RAM minimum. Close Chrome before playing. The modpack has 234 mods + Sable physics. Swap file should be fixed (not auto) — 4-8 GB.
+Entity tracking via events (join/leave/death) — zero world scans in the tick loop.
+O(1) zone queries via HashMap. Scent goals verify path reachability before committing to expensive pathfinding.
 
 ## Development
 

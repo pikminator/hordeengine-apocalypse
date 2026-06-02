@@ -2,6 +2,15 @@
 *.jar
 !HordeEngine-*.jar
 
+# Reference mods / decompiled sources — research only
+study/
+audit-*
+
+# AI assistant files — not for public repo
+CLAUDE.md
+MEMORY.md
+.claudetree
+
 # IDE
 .idea/
 .vscode/
