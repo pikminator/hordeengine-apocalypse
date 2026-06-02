@@ -1,4 +1,10 @@
-See DEVGUIDE.md for architecture, config values, and modpack setup.
+## Modpack
+
+All of Create — Aeronautics v1.7. NeoForge 1.21.1, 234 mods.
+Instance: `C:\Users\dsd\AppData\Roaming\PrismLauncher\instances\All of Create - Aeronautics\`
+Launcher: PrismLauncher. Java: `java-runtime-delta` (MS OpenJDK 21).
+
+See DEVGUIDE.md for architecture, config values, and removed mods.
 
 ## Build
 
